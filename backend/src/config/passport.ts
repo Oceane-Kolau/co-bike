@@ -59,7 +59,6 @@ module.exports = function (passport: any) {
       },
       function (accessToken: any, refreshToken: any, profile: any, done: any) {
         process.nextTick(function () {
-          // try to find the user based on their google id
           User.findOne(
             { googleId: profile.id },
             function (err: Error, user: UserInterface) {

@@ -22,6 +22,10 @@ export default function Register() {
       .then((res: AxiosResponse) => {
         if (res.data === "success") {
           window.location.href = "/login";
+        } else if (res.data === "user exists") {
+          console.log("this email is already used");
+        } else {
+          console.log("fail to register")
         }
       });
   };

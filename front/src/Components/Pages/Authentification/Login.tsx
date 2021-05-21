@@ -23,6 +23,10 @@ export default function Login() {
       .then((res: AxiosResponse) => {
         if (res.data === "success") {
           window.location.href = "/profile";
+        } else if (res.data === "no user exists") {
+          console.log("aucun utilisateur trouvé avec cet email");
+        } else {
+          console.log("Une erreur s'est produite. Connectez vous avec vous compte google ou inscrivez-vous")
         }
       }, () => {
         console.log("failure");
