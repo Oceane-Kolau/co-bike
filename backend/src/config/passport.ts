@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const LocalStrategy  = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const StravaStrategy = require('passport-strava').Strategy;
 
 module.exports = function (passport: any) {
   passport.serializeUser(function (user: UserInterface, done: any) {
@@ -70,7 +71,7 @@ module.exports = function (passport: any) {
                   googleId: profile.id,
                   token: accessToken,
                   username: profile.displayName,
-                  email: profile.emails[0].value, // pull the first email
+                  email: profile.emails[0].value,
                 });
                 newUser.save(function (err) {
                   if (err) throw err;
@@ -83,4 +84,36 @@ module.exports = function (passport: any) {
       },
     ),
   );
+
+  passport.use(new StravaStrategy({
+    clientID: `${process.env.STRAVA_CLIENT_ID}`,
+    clientSecret: `${process.env.STRAVA_CLIENT_SECRET}`,
+    callbackURL: `http://${process.env.HOST}:${process.env.PORT}/auth/strava/callback`
+  },
+  
+    function (accessToken: any, refreshToken: any, profile: any, done: any) {
+      process.nextTick(function () {
+        User.findOne(
+          { stravaId: profile.id },
+          function (err: Error, user: UserInterface) {
+            if (err) throw err;
+            if (user) {
+              return done(null, user);
+            } else {
+              const newUser = new User({
+                stravaId: profile.id,
+                token: accessToken,
+                username: profile.displayName,
+                email: profile.emails[0].value,
+              });
+              newUser.save(function (err) {
+                if (err) throw err;
+                return done(null, newUser);
+              });
+            }
+          },
+        );
+      });
+    },
+  ));
 };

@@ -4,6 +4,7 @@ export interface UserInterface {
   isAdmin: boolean;
   id: string;
   googleId?: string;
+  stravaId?: string;
   email: string;
   token?: string;
 }
@@ -13,6 +14,7 @@ export interface PublicUserInterface {
   isAdmin: boolean;
   id: string;
   googleId?: string;
+  stravaId?: string;
   email: string;
   token?: string;
 }

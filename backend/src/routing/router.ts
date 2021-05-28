@@ -17,5 +17,8 @@ router.post('/deleteUser', isAdmin, UserController.deleteOneUser);
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', 
   { failureRedirect: '/failed', successRedirect: CLIENT_HOME_PAGE_URL }));
+router.get('/auth/strava', passport.authenticate('strava'));
+router.get('/auth/strava/callback', passport.authenticate('strava', 
+  { failureRedirect: '/failed', successRedirect: CLIENT_HOME_PAGE_URL }));
 
 module.exports = router;

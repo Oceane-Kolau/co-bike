@@ -9,6 +9,10 @@ export default function Login() {
     window.open("http://localhost:4000/auth/google", "_self");
   };
 
+  const _handleStrava = () => {
+    window.open("http://localhost:4000/auth/strava", "_self");
+  };
+
   const login = () => {
     axios
       .post("http://localhost:4000/login",
@@ -48,6 +52,7 @@ export default function Login() {
       ></input>
       <button onClick={login}>Login</button>
       <button onClick={_handleSignInClick}>Google auth</button>
+      <button onClick={_handleStrava}>Strava auth</button>
     </div>
   );
 }
